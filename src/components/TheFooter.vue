@@ -1,0 +1,12 @@
+<template>
+  <footer class="footer">
+    <small>&copy;y-vite-todo</small>
+  </footer>
+</template>
+
+<style scoped>
+.foter {
+  margin-top: 15px;
+  height: 30px;
+}
+</style>
