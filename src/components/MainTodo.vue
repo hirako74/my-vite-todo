@@ -4,7 +4,7 @@ import { useTodoList } from '/src/composables/useTodoList.js';
 
 const todoRef = ref('');
 const isEditRef = ref(false); // 編集ボタンを推したときにtrueにする
-const { todoListRef, add, show, edit, del, check } = useTodoList();
+const { todoListRef, add, show, edit, del, check, countFin } = useTodoList();
 /*
 const todoListRef = ref([]);
 const ls = localStorage.todoList; // ローカルストレージから値取得
@@ -143,6 +143,10 @@ const changeCheck = (id) => {
       </div>
     </div>
   </div>
+  <div class="finCount">
+    <span>完了：{{ countFin }}、</span>
+    <span>未完了：{{ todoListRef.length - countFin }}</span>
+  </div>
   <!--
   <div v-for="(example, index) in todoExample" :key="index">
     <p>{{ index }}.{{ example }}</p>
@@ -222,5 +226,10 @@ const changeCheck = (id) => {
   text-decoration: line-through;
   background-color: #ddd;
   color: #777;
+}
+
+.finCount {
+  margin-top: 8px;
+  font-size: 0.8em;
 }
 </style>

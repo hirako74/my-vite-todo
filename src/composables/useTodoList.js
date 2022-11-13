@@ -1,5 +1,5 @@
 //共通化処理
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 export const useTodoList = () => {
   const ls = localStorage.todoList; // ローカルストレージから値取得
@@ -80,6 +80,12 @@ export const useTodoList = () => {
     localStorage.todoList = JSON.stringify(todoListRef.value);
   };
 
+  const countFin = computed(() => {
+    //todo.checkedはture/faleがはいっているため、trueのtodoが返る
+    const finArr = todoListRef.value.filter((todo) => todo.checked);
+    return finArr.length;
+  });
+
   //returnする事でtodoListRef ... を外部から使う事ができる
-  return { todoListRef, add, show, edit, del, check };
+  return { todoListRef, add, show, edit, del, check, countFin };
 };
