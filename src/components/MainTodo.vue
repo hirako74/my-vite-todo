@@ -2,6 +2,14 @@
 import { ref } from 'vue';
 const todoRef = ref('');
 const todoListRef = ref([]);
+const ls = localStorage.todoList;
+todoListRef.value = ls ? JSON.parse(ls) : [];
+
+//const todoListRef = ref([
+//  { id: 1, task: 'example1' },
+//  { id: 2, task: 'example2' },
+//  { id: 3, task: 'example3' },
+//]);
 const addTodo = () => {
   //  console.log(todoRef.value);
   const id = new Date().getTime();
@@ -22,10 +30,10 @@ const addTodo = () => {
     <button class="btn" @click="addTodo">追加</button>
   </div>
   <div class="box_List">
-    <div class="todo_List">
+    <div class="todo_List" v-for="todo in todoListRef" :key="todo.id">
       <div class="todo">
         <input type="checkbox" class="check" />
-        <label>TODO1</label>
+        <label>{{ todo.task }}</label>
       </div>
       <div class="btns">
         <button class="btn green">編</button>
@@ -33,6 +41,11 @@ const addTodo = () => {
       </div>
     </div>
   </div>
+  <!--
+  <div v-for="(example, index) in todoExample" :key="index">
+    <p>{{ index }}.{{ example }}</p>
+  </div>
+  -->
 </template>
 
 <style scoped>
