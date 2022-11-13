@@ -1,13 +1,18 @@
 <script setup>
 import { ref } from 'vue';
+import { useTodoList } from '/src/composables/useTodoList.js';
+
 const todoRef = ref('');
+const isEditRef = ref(false); // 編集ボタンを推したときにtrueにする
+const { todoListRef, add, show, edit, del, check } = useTodoList();
+/*
 const todoListRef = ref([]);
 const ls = localStorage.todoList; // ローカルストレージから値取得
-const isEditRef = ref(false); // 編集ボタンを推したときにtrueにする
 let editId = -1;
 
 //ローカルストレージにtodoListRefが存在していればparseし、無ければundifindeになるため空配列をセットする
 todoListRef.value = ls ? JSON.parse(ls) : [];
+*/
 
 //const todoListRef = ref([
 //  { id: 1, task: 'example1' },
@@ -17,15 +22,38 @@ todoListRef.value = ls ? JSON.parse(ls) : [];
 
 //追加ボタンが押された時
 const addTodo = () => {
+  add(todoRef.value);
+  todoRef.value = '';
+  /*
   //  console.log(todoRef.value);
   const id = new Date().getTime();
   todoListRef.value.push({ id: id, task: todoRef.value });
   localStorage.todoList = JSON.stringify(todoListRef.value);
   todoRef.value = '';
+  */
+};
+
+//編集ボタンが押された時
+const showTodo = (id) => {
+  todoRef.value = show(id);
+  isEditRef.value = true; //編集中
+  /*
+  //配列から引数のidと同じ要素を検索する。
+  //findの「todo」には配列の要素が引数として順番に入る。
+  //「todo.id===id」がtrueならその時点の要素:todoが返る
+  const todo = todoListRef.value.find((todo) => todo.id === id);
+  todoRef.value = todo.task; //取得した要素からtaskを取り出す
+  isEditRef.value = true; //編集中
+  editId = id;
+  */
 };
 
 //変更ボタンが押された時
 const editTodo = () => {
+  edit(todoRef.value);
+  isEditRef.value = false;
+  todoRef.value = '';
+  /*
   //編集対象となるTODOを取得
   const todo = todoListRef.value.find((todo) => todo.id === editId);
   //TODOリストから編集対象のインデックスを取得
@@ -41,26 +69,22 @@ const editTodo = () => {
   //IDを初期値に戻す
   editId = -1;
   todoRef.value = '';
-};
-
-//編集ボタンが押された時
-const showTodo = (id) => {
-  //配列から引数のidと同じ要素を検索する。
-  //findの「todo」には配列の要素が引数として順番に入る。
-  //「todo.id===id」がtrueならその時点の要素:todoが返る
-  const todo = todoListRef.value.find((todo) => todo.id === id);
-  todoRef.value = todo.task; //取得した要素からtaskを取り出す
-  isEditRef.value = true; //編集中
-  editId = id;
+  */
 };
 
 //削除ボタンが押された時
 const deleteTodo = (id) => {
-  //編集対象となるTODOを取得
-  const todo = todoListRef.value.find((todo) => todo.id === id);
-  //TODOリストから編集対象のインデックスを取得
-  const idx = todoListRef.value.findIndex((todo) => todo.id === id);
+  del(id);
+  /*
+  ////編集対象となるTODOを取得
+  //const todo = todoListRef.value.find((todo) => todo.id === id);
+  ////TODOリストから編集対象のインデックスを取得
+  //const idx = todoListRef.value.findIndex((todo) => todo.id === id);
 
+  //共通関数の呼び出し
+  const { todo, idx } = useTodoList(id);
+
+  //削除確認のメッセージ表示
   const delMsg = '「' + todo.task + '」を削除しますか？';
   if (!confirm(delMsg)) return;
 
@@ -68,6 +92,11 @@ const deleteTodo = (id) => {
   todoListRef.value.splice(idx, 1);
   //ローカルストレージに保存
   localStorage.todoList = JSON.stringify(todoListRef.value);
+  */
+};
+
+const changeCheck = (id) => {
+  check(id);
 };
 </script>
 
