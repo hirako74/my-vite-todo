@@ -21,7 +21,7 @@ export const useTodoList = () => {
   //追加処理
   const add = (task) => {
     const id = new Date().getTime();
-    todoListRef.value.push({ id: id, task: task });
+    todoListRef.value.push({ id: id, task: task, checked: false });
     localStorage.todoList = JSON.stringify(todoListRef.value);
   };
 
@@ -72,6 +72,7 @@ export const useTodoList = () => {
     const todo = findById(id);
     //TODOリストから編集対象のインデックスを取得
     const idx = findIndexById(id);
+    //true/falseを反転させる
     todo.checked = !todo.checked;
     //splice関数でインデックスを元に対象オブジェクトを置き換え
     todoListRef.value.splice(idx, 1, todo);

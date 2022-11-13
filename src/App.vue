@@ -13,7 +13,10 @@ import MainTodo from './components/MainTodo.vue';
 </template>
 
 <style>
+/*-- 
+CSSの初期化処理だが、チェックボックスが表示されなくなる為、一時的に外す
 @import 'assets/css/destyle.css';
+--*/
 
 .wrap {
   display: flex;
